@@ -1,0 +1,156 @@
+ {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <title>Home Page</title>
+
+</head>
+
+<header>
+    <nav class="navbar fixed-top  navbar-light" style="background-color: black">
+    <a class="navbar-brand" href="{% url "home" %}" style="color: white;">Home</a>
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="width: 700px"  >
+            <button class="btn  btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <div class="inner-bar">
+            <button id="cart" type="button"  data-html="true" style="background-color: #286961" class="btn btn-outline-light my-2 my-sm-0" data-container="body" data-toggle="popover" data-placement="bottom" data-content="This">Cart(0)</button>
+            <a class="btn btn-outline-light my-2 my-sm-0" href="#">Product</a>
+        <a class="btn btn-outline-light my-2 my-sm-0" href="#">Contact</a>
+        <a class="btn btn-outline-light my-2 my-sm-0" href="#">About us</a>
+
+        </div>
+        </nav>
+        <nav class="navbar  navbar-dark bg-dark" style="height: 40px;position: fixed;top: 55px;z-index: 99;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2); width: 100%">
+            </nav>
+</header>
+<div class="row" style="height: 120px;">
+</div>
+<body>
+<div class="container">
+
+    <div class="row">
+        {% for product in laptop_objects %}
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-text" style="text-align: center;font-size: 20px;font-weight: bold;font-family: 'Arial Black'">
+                    {{ product.category }}
+                </div>
+                <img src="{{ product.image }}" class="card-img-top" alt="left">
+                <div class="card-body">
+                    <div id="nm{{ product.id }}" class="card-title">{{ product.title }}</div>
+                    <div class="card-text-disc">
+                        {{ product.description }}
+                    </div>
+                    <div class="card-text" style="font-size: 22px">
+                       PRICE: {{ product.price }}$
+                    </div>
+                    <a href="/{{ product.id }}" class="btn btn-dark btn-outline-white bg-dark"  style="float: left;color: white">Details</a>
+                    <a id="{{ product.id }}"  class="btn atc btn-dark btn-outline-white  bg-dark" style="float: right;color: white">Ad to cart</a>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-md-3 offset-4">
+            <ul class="pagination">
+                {% if laptop_objects.has_previous %}
+                    <li class="page-item">
+                        <a style="background-color: black;color: white" class="page-link" href="?page={{ laptop_objects.previous_page_number }}">Previous</a>
+                    </li>
+
+                {% endif %}
+                    <li class="page-item">
+                        <a style="background-color: black;color: white" class="page-link" href="?page={{ laptop_objects.number }}">Current</a>
+                    </li>
+
+                {% if laptop_objects.has_next %}
+                    <li class="page-item">
+                    <a style="background-color: black;color: white" class="page-link" href="?page={{ laptop_objects.next_page_number }}">Next</a>
+                    </li>
+
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+</body>
+<script type="text/javascript">
+    console.log('This is working')
+
+    if(localStorage.getItem('cart') == null){
+        var cart={};
+    }
+    else{
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+
+    $(document).on('click','.atc',function (){
+
+       console.log('The add to cart button is click');
+        var item_id = this.id.toString();
+       console.log(item_id);
+
+       if(cart[item_id] !==undefined){
+           quantity = cart[item_id][0] + 1;
+           cart[item_id][0] = quantity;
+
+       }
+       else{
+           quantity = 1;
+           name = document.getElementById("nm" + item_id).innerHTML;
+           cart[item_id] = [quantity,name];
+
+       }
+       console.log(cart);
+       localStorage.setItem('cart',JSON.stringify(cart));
+       document.getElementById("cart").innerHTML = "Cart("+  Object.keys(cart).length +")";
+       var cartString ="";
+        cartString += "<h5>This is your cart</h5>";
+
+        var cartIndex = 1;
+        for(let x in cart){
+            cartString += cartIndex;
+            cartString += document.getElementById("nm" + x).innerHTML + " | " + "Qty:" + cart[x][0] + "</br>"
+            cartIndex+= 1;
+
+
+        cartButton = "<a href='/check'><button class ='btn btn-warning' id='check'>Check</button></a>";
+        document.getElementById("cart").setAttribute('data-content', cartString + cartButton);
+        $('[data-toggle="popover"]').popover();
+
+
+
+
+}
+
+
+    });
+
+
+
+</script>
+</html>

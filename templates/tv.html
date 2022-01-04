@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+
+    <link rel="stylesheet" href="{%static 'css/main.css'%}"   type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Page</title>
+
+
+
+</head>
+<body>
+<header>
+        <div style="padding: 4px" class="inner">
+            <div class="logo1">My Shop</div>
+            <div class="search_box">
+                <input type="text" placeholder="Search.." name="search">
+                <button class="search_btn" type="submit"><i class="fa fa-search"></i></button>
+
+            </div>
+            <nav>
+                <li><span><a style="font-family: 'Bell MT',serif;position: absolute;display: flex;left: 76%;top: 5%" href="{% url 'home'  %}">Home</a></span></li>
+                <li><span><a style="font-family: 'Bell MT',serif;position: absolute;display: flex;left: 80%;top: 5%" href="">Register</a></span></li>
+                <li><span><a style="font-family: 'Bell MT',serif; background-color: #208175;position: absolute;display: flex;left: 85%;top: 4%" href="" class="button">Contact</a></span></li>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+
+
+    <div style="padding: 50px" class="flex-parent jc-center">
+
+    <button class="laptops" type="button">
+        <a href="{% url 'laptops' %}" style="color: white;text-decoration: none">Laptops</a>
+    </button>
+        <div class="divider"></div>
+    <button class="phones" type="button">
+        <a href="{% url 'phones' %}" style="color: white;text-decoration: none">Smart Phones</a>
+    </button>
+        <div class="divider"></div>
+    <button class="watches" type="button">
+        <a href="{% url 'watches' %}" style="color: white;text-decoration: none">Smart Watches</a>
+    </button>
+        <div class="divider"></div>
+    <button class="tv" type="button">
+        <a href="{% url 'tv' %}" style="color: white;text-decoration: none">Smart TV</a>
+    </button>
+
+        <div class="divider"></div>
+    <button class="basked" type="button">
+        <a href="{% url 'basked' %}" style="color: white;text-decoration: none"></a>
+    </button>
+    </div>
+
+    <div style="padding: 500px;" class="box"></div>
+     </div>
+   <div class="footer">
+        <h1>My Shop</h1>
+        <h2 class="logo2" >My Shop</h2>
+        <div class="help">
+            <a class="one" href="#">Need Help?</a>
+            <a class="two" href="#">Term of Policy</a>
+            <a class="three" href="#">About As</a>
+
+
+        </div>
+
+
+</body>
